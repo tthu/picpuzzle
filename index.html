@@ -3,6 +3,38 @@
 <head>
     <meta charset="utf-8" />
     <title>Picture Puzzle - Setup</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script> 
+    <script type="text/javascript">
+	$(document).ready(function() {
+	  if (window.FormData) {
+	      $('input[type="file"]').bind({
+		  change : function()
+		  {
+		      var input = this,
+		      files = input.files;
+		      
+		      if (files.length > 0) {
+			  var regExp = new RegExp('image.(jpeg|jpg|gif|png)', 'i');
+			  for (var i = 0; i < files.length; i++)
+			  {
+			      var file = file = files[i];
+			      var matcher = regExp.test(file.type);
+			      
+			      if (!matcher)
+			      {
+				  alert('Invalid file detected. Please use only image files with jpg gif png extensions.');
+			      }
+			  }
+		      } else {
+			  alert('please add 1 file');
+		      }   
+		  }
+	      });
+	  } else {
+	      alert('Browser not support Formdata');
+	  }
+	});
+    </script>
 </head>
 <body>
 
@@ -20,27 +52,25 @@
 				<td>
 					<strong>Instructions:</strong><br />
 					<ul>
-						<li>Upload an image from your computer or paste the URL of an image from the web.</li>
+						<li>Select which images from your computer to upload.</li>
 						<li>Select the size of boxes to use from the dropdown menu then press submit.</li>
 					</ul>
 				</td>
 				<td style="background-color: #e9e9e9;">
-					<input type="hidden" name="width" id="width" value="">
-					<input type="hidden" name="height" id="height" value="">
+					<input type="hidden" name="w_width" id="w_width" value="">
+					<input type="hidden" name="w_height" id="w_height" value="">
+					<strong>Note:</strong>
+					<ul><li>More than 1 image can be uploaded at a time. The puzzles will display one after the other when you click the <strong>Next Puzzle</strong> button.</li>
+					</ul>
 				</td>
 			</tr>
 			<tr>
 				<td style="background-color: #e9e9e9;">
-				    <!--Enter Image URL: <input type="text" name="imageurl" size="55"><br />-->
+				    Select images to upload: <input type="file" name="file[]" id="file" multiple>
 
 				</td>
 				<td>
-				    Upload your own image: <input type="file" name="file" id="file">
-				
-				</td>
-			</tr>
-			<tr>
-				<td>Number of Boxes:			
+				    Number of Boxes:			
 					<select name="boxsize">
 					<option value="9">9 Boxes (3x3)</option>
 					<option value="12">12 Boxes (3x4)</option>
@@ -58,8 +88,12 @@
 					<option value="90">90 Boxes (9x10)</option>
 					<option value="100" selected>100 Boxes (10x10)</option>
 					</select>
+				
 				</td>
-				<td style="background-color: #C2F0C2;" align="center">
+			</tr>
+			<tr>
+
+				<td style="background-color: #C2F0C2;" align="center" colspan="2">
 					<input type="submit" name="submit" value="submit"/>
 
 				</td>
@@ -76,7 +110,7 @@
 <script type="text/javascript">
 function validate()
 {
-  var x=document.forms["imagesetup"]["imageurl"].value;
+//  var x=document.forms["imagesetup"]["imageurl"].value;
   var z=document.forms["imagesetup"]["file"].value;
   var bSize = document.forms["imagesetup"]["boxsize"].value;
 //get browser window size
@@ -96,15 +130,22 @@ function validate()
 	var roundHeight = (Math.floor((h-50)/100)*100);
 
 //200 pixel buffer for resizing of images
-  document.getElementById('width').value = (w - 200);
-  document.getElementById('height').value = (roundHeight);
+  document.getElementById('w_width').value = (w - 200);
+  document.getElementById('w_height').value = (roundHeight);
 
-  if ((x==null || x=="") && (z==null || z==""))
+  if (z==null || z=="")
   {
 	alert("You must input a URL or select an image.");
 	return false;
   }
+  else
+  {
+    return true;  
+  }
 }
+
+
+
 </script>
 
 </body>
