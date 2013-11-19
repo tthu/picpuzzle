@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Picture Puzzle - Setup</title>
+</head>
+<body>
+
+		<h2 align="center">Image Revealer</h2>
+
+		<form name="imagesetup" action="showpuzzle.php" method="POST" onsubmit="return validate()" enctype="multipart/form-data">
+		<table frame="box" width="70%" align="center" cellpadding="3">
+			<col width="50%">
+			<col width="50%">
+			<thead>
+
+			</thead>
+			<tbody>
+				<tr>
+				<td>
+					<strong>Instructions:</strong><br />
+					<ul>
+						<li>Upload an image from your computer or paste the URL of an image from the web.</li>
+						<li>Select the size of boxes to use from the dropdown menu then press submit.</li>
+					</ul>
+				</td>
+				<td style="background-color: #e9e9e9;">
+					<input type="hidden" name="width" id="width" value="">
+					<input type="hidden" name="height" id="height" value="">
+				</td>
+			</tr>
+			<tr>
+				<td style="background-color: #e9e9e9;">
+				    <!--Enter Image URL: <input type="text" name="imageurl" size="55"><br />-->
+
+				</td>
+				<td>
+				    Upload your own image: <input type="file" name="file" id="file">
+				
+				</td>
+			</tr>
+			<tr>
+				<td>Number of Boxes:			
+					<select name="boxsize">
+					<option value="9">9 Boxes (3x3)</option>
+					<option value="12">12 Boxes (3x4)</option>
+					<option value="16">16 Boxes (4x4)</option>
+					<option value="20">20 Boxes (4x5)</option>
+					<option value="25">25 Boxes (5x5)</option>
+					<option value="30">30 Boxes (5x6)</option>
+					<option value="36">36 Boxes (6x6)</option>
+					<option value="42">42 Boxes (6x7)</option>
+					<option value="49">49 Boxes (7x7)</option>
+					<option value="56">56 Boxes (7x8)</option>
+					<option value="64">56 Boxes (8x8)</option>
+					<option value="72">72 Boxes (8x9)</option>
+					<option value="81">81 Boxes (9x9)</option>
+					<option value="90">90 Boxes (9x10)</option>
+					<option value="100" selected>100 Boxes (10x10)</option>
+					</select>
+				</td>
+				<td style="background-color: #C2F0C2;" align="center">
+					<input type="submit" name="submit" value="submit"/>
+
+				</td>
+			</tr>
+
+			</tbody>
+		</table>
+	</form>
+
+
+
+
+
+<script type="text/javascript">
+function validate()
+{
+  var x=document.forms["imagesetup"]["imageurl"].value;
+  var z=document.forms["imagesetup"]["file"].value;
+  var bSize = document.forms["imagesetup"]["boxsize"].value;
+//get browser window size
+ 	if (window.innerWidth != undefined)
+	{
+  		var w=window.innerWidth;
+  		var h=window.innerHeight;
+	 }
+	 else{
+        var B= document.body, 
+        D= document.documentElement;
+        w = Math.max(D.clientWidth, B.clientWidth);
+        h = Math.max(D.clientHeight, B.clientHeight);
+	 }
+
+//find closest value of 100 less than screen size minus 50px for footer
+	var roundHeight = (Math.floor((h-50)/100)*100);
+
+//200 pixel buffer for resizing of images
+  document.getElementById('width').value = (w - 200);
+  document.getElementById('height').value = (roundHeight);
+
+  if ((x==null || x=="") && (z==null || z==""))
+  {
+	alert("You must input a URL or select an image.");
+	return false;
+  }
+}
+</script>
+
+</body>
+</html>
