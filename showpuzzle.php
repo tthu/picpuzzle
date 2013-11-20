@@ -43,7 +43,8 @@ for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
   //resize and save all images
   $original_image = $_FILES['file']['tmp_name'][$i];
   $size=GetImageSize( $original_image );
-  $new_Name = str_replace(" ", "", $_FILES['file']["name"][$i]);
+  $new_Name = strval(rand() * time()) . "." . $ext;
+  //generate random filename
   $new_image = "images/" . $new_Name;
   $image = new Imagick($_FILES['file']['tmp_name'][$i]);
   $image->adaptiveResizeImage(0,$_SESSION['winY']);
