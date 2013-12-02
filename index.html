@@ -3,7 +3,57 @@
 <head>
     <meta charset="utf-8" />
     <title>Picture Puzzle - Setup</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script> 
+    
+    <script type="text/javascript">
+    var handleUpload = function(event){
+	event.preventDefault();
+	event.stopPropagation();
+    
+    var fileInput = document.getElementById('file');
+    var data = new FormData(document.forms.namedItem('imagesetup'));
+    
+    for(var i = 0; i < fileInput.files.length; ++i){
+	data.append('file[]',fileInput.files[i]);
+    }
+    var request = new XMLHttpRequest();
+    request.upload.addEventListener('progress',function(event){
+	if(event.lengthComputable){
+    
+	    var percent = event.loaded / event.total;
+	    var progress = document.getElementById('upload_progress');
+    
+	    while (progress.hasChildNodes()){
+		progress.removeChild(progress.firstChild);
+	    }
+	    progress.appendChild(document.createTextNode(Math.round(percent * 100) + '%'));
+	}
+    });
+    
+    request.upload.addEventListener('load',function(event){
+	document.getElementById('imagesetup').submit();
+	alert("submitted?");
+    });
+    
+    request.upload.addEventListener('error',function(event){
+	alert("failed");
+    });
+    request.open('POST','showpuzzle.php',true);
+    request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    request.setRequestHeader('Cache-Control','no-cache');
+    document.getElementById('upload_progress').style.display = 'block';
+    request.setRequestHeader("Connection", "close");
+    request.send(data);
+    };
+    
+    window.addEventListener('load',function(event){
+    var submit = document.getElementById('submit');
+    submit.addEventListener('click',handleUpload);
+    });
+    </script>
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    
     <script type="text/javascript">
 	$(document).ready(function() {
 	  if (window.FormData) {
@@ -40,7 +90,7 @@
 
 		<h2 align="center">Image Revealer</h2>
 
-		<form name="imagesetup" action="showpuzzle.php" method="POST" onsubmit="return validate()" enctype="multipart/form-data">
+		<form name="imagesetup" action="showpuzzle.php" method="post" onsubmit="return validate()" enctype="multipart/form-data">
 		<table frame="box" width="70%" align="center" cellpadding="3">
 			<col width="50%">
 			<col width="50%">
@@ -79,7 +129,6 @@
 					    </tr>
 					</tbody>
 				    </table>
-
 				</td>
 				<td>
 				    Number of Boxes:			
@@ -105,19 +154,23 @@
 			</tr>
 			<tr>
 
-				<td style="background-color: #C2F0C2;" align="center" colspan="2">
-					<input type="submit" name="submit" value="submit"/>
+				<td style="background-color: #C2F0C2;" align="center">
+					<input type="button" name="send" id="submit" value="Submit"/></form>
 
+				</td>
+				<td>
+				    <strong>File upload progress: </strong><div id = "upload_progress"></div>
+				    
 				</td>
 			</tr>
 
 			</tbody>
 		</table>
-	</form>
+	
 
+	<div id = "upload_progress"></div>
 
 	<script>
-	    // Display filenames of selected files
 	var selDiv = "";
 		
 	document.addEventListener("DOMContentLoaded", init, false);
@@ -143,6 +196,8 @@
 		
 	}
 	</script>
+	
+	
 
 
 <script type="text/javascript">

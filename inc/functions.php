@@ -111,7 +111,7 @@ $(function() {
 <input type=\"submit\" value=\"Next Puzzle\" style=\"height:25px; width:190px\">
 </form>
 </td>
-<td><button onclick=\"window.location='http://picpuzzle.dkteacherswiki.com'\" style=\"width:190px\">Create New Puzzle</button></td>
+<td><button onclick=\"window.location='index.html'\" style=\"width:190px\">Create New Puzzle</button></td>
 </tr>
 </table>
 
