@@ -27,7 +27,7 @@ background: no-repeat url('{$image_URL}');
 }
 .box div {
     background: #ccf;
-    border-style:solid;
+    border: 1px groove #aaaaaa;
     text-align:center;
     line-height: {$b_height}px;  
     vertical-align:middle;
@@ -63,7 +63,7 @@ form {
 $(function() {
 
     $('#showall').click(function() {
-      $('.box').fadeOut('fast');
+      $('.box').fadeOut('slow');
     });
 
     var box_height = {$b_height},
